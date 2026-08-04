@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="奥特曼学习">
+<meta name="theme-color" content="#4caf7d">
+<meta name="description" content="祝一一的每日学习打卡工作台">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="167x167" href="apple-touch-icon-167.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<title>祝一一的奥特曼学习站</title>
+<style>
+:root{--bg:#eef6ee;--card:#ffffff;--primary:#4caf7d;--primary-light:#a5d6b8;--primary-dark:#2e7d57;--accent:#ff9800;--accent-light:#ffe0b2;--text:#3a3a3a;--text-light:#777;--border:#d4e8d4;--radius:18px;--shadow:0 2px 12px rgba(76,175,125,0.12);--radius-sm:12px;--sidebar-w:180px;--font-large:18px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:var(--font-large)}
+#app{display:flex;height:100vh}
+.sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,#4caf7d 0%,#3d9a6e 100%);color:#fff;display:flex;flex-direction:column;flex-shrink:0;box-shadow:2px 0 12px rgba(0,0,0,0.08);z-index:10}
+.sidebar .logo{padding:18px 12px;text-align:center;font-size:17px;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.15);line-height:1.4}
+.sidebar .logo span{font-size:13px;opacity:0.8;display:block;margin-top:4px}
+.nav-item{padding:14px 10px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;border-left:3px solid transparent;font-size:16px}
+.nav-item:hover{background:rgba(255,255,255,0.1)}
+.nav-item.active{background:rgba(255,255,255,0.18);border-left-color:#ffd54f}
+.nav-item .icon{font-size:22px}
+.sidebar .bottom-info{margin-top:auto;padding:12px;background:rgba(0,0,0,0.1);font-size:13px;text-align:center;line-height:1.6}
+.sidebar .bottom-info .pts{font-size:22px;font-weight:700;color:#ffd54f}
+.content{flex:1;overflow-y:auto;padding:16px 20px;-webkit-overflow-scrolling:touch}
+.card{background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card h3{font-size:18px;color:var(--primary-dark);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title{font-size:22px;font-weight:700;color:var(--primary-dark);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.btn{background:var(--primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:10px 20px;font-size:16px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-accent{background:var(--accent)}
+.btn-accent:hover{background:#f57c00}
+.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary)}
+.btn-outline:hover{background:var(--primary);color:#fff}
+.btn-sm{padding:6px 14px;font-size:14px}
+.btn-lg{padding:14px 28px;font-size:18px}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:13px;margin:2px}
+.tag-green{background:#e8f5e9;color:#2e7d57}.tag-orange{background:#fff3e0;color:#f57c00}.tag-blue{background:#e3f2fd;color:#1565c0}.tag-purple{background:#f3e5f5;color:#7b1fa2}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.poem-card{background:linear-gradient(135deg,#fdfaf3,#f5f0e0);border-radius:var(--radius);padding:20px;margin-bottom:12px;border:1px solid #e8e0c8}
+.poem-card .title{font-size:20px;font-weight:700;color:#5d4037;text-align:center;margin-bottom:4px}
+.poem-card .author{text-align:center;color:#8d6e63;font-size:14px;margin-bottom:12px}
+.poem-card .content{text-align:center;font-size:20px;line-height:2;color:#4e342e;font-family:"STKaiti","KaiTi",serif}
+.poem-card .pinyin{text-align:center;font-size:12px;color:#a1887f;line-height:1.8;margin-bottom:10px}
+.poem-card .analysis{background:rgba(255,255,255,0.6);border-radius:10px;padding:12px;font-size:14px;color:#6d4c41;line-height:1.6;margin-top:10px}
+.math-problem{background:#f5f9f5;border-radius:var(--radius-sm);padding:16px;margin-bottom:12px;border:1px solid var(--border)}
+.math-problem .q{font-size:20px;font-weight:600;margin-bottom:10px}
+.math-input{width:80px;font-size:22px;text-align:center;padding:8px;border:2px solid var(--primary-light);border-radius:10px;margin:0 6px}
+.math-input:focus{outline:none;border-color:var(--primary)}
+.timer-display{font-size:36px;font-weight:700;color:var(--accent);font-family:"Courier New",monospace;text-align:center;padding:10px}
+.word-card{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:12px}
+.word-card .word{font-size:28px;font-weight:700;color:#2e7d57}
+.word-card .phonetic{font-size:16px;color:#66bb6a;margin:4px 0}
+.word-card .meaning{font-size:16px;color:#555;margin-top:6px}
+.word-card .example{font-size:14px;color:#777;margin-top:8px;font-style:italic}
+.quiz-option{padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius-sm);margin:6px 0;cursor:pointer;transition:all .2s;font-size:16px}
+.quiz-option:hover{border-color:var(--primary);background:#f5f9f5}
+.quiz-option.correct{background:#c8e6c9;border-color:#4caf50}
+.quiz-option.wrong{background:#ffcdd2;border-color:#ef5350}
+.quiz-option.selected{border-color:var(--primary);background:#e8f5e9}
+.progress-bar{height:12px;background:#e0e0e0;border-radius:6px;overflow:hidden;margin:6px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:6px;transition:width .3s}
+.ultra-stage{background:linear-gradient(180deg,#1a237e,#311b92);border-radius:var(--radius);padding:30px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.ultra-avatar{font-size:80px;margin:10px 0;filter:drop-shadow(0 0 20px rgba(100,255,200,0.5))}
+.ultra-level{font-size:24px;font-weight:700;color:#ffd54f}
+.exp-bar{height:16px;background:rgba(255,255,255,0.2);border-radius:8px;margin:12px auto;max-width:300px;overflow:hidden}
+.exp-fill{height:100%;background:linear-gradient(90deg,#ffd54f,#ff9800);border-radius:8px;transition:width .5s}
+.checkin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.checkin-item{background:#f5f9f5;border-radius:var(--radius-sm);padding:12px;text-align:center;border:2px solid var(--border);cursor:pointer;transition:all .2s}
+.checkin-item:hover{border-color:var(--primary)}
+.checkin-item.done{background:#c8e6c9;border-color:#4caf50}
+.checkin-item .icon{font-size:28px}.checkin-item .name{font-size:14px;margin-top:4px;color:var(--text)}.checkin-item .status{font-size:12px;margin-top:2px}
+.voice-btn{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(255,152,0,0.4);z-index:100;transition:all .2s}
+.voice-btn:hover{transform:scale(1.1)}
+.voice-btn.playing{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:20px;background:#e0e0e0;cursor:pointer;font-size:15px;transition:all .2s}
+.tab.active{background:var(--primary);color:#fff}
+@media(max-width:768px){:root{--sidebar-w:56px}.sidebar .logo span,.nav-item span:not(.icon){display:none}.nav-item{justify-content:center;padding:14px 0}.nav-item .icon{font-size:24px}.sidebar .bottom-info{font-size:11px;padding:8px 4px}.sidebar .bottom-info .pts{font-size:16px}.content{padding:12px}.grid2{grid-template-columns:1fr}.poem-card .content{font-size:18px}.word-card .word{font-size:22px}.section-title{font-size:18px}}
+@media(max-width:480px){.tabs{flex-wrap:nowrap;overflow-x:auto}.mobile-bottom-nav{display:flex!important}.content{padding-bottom:80px}}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(46,125,87,0.95);color:#fff;padding:12px 24px;border-radius:30px;font-size:16px;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:600}
+.badge-gold{background:#fff8e1;color:#f57c00}.badge-green{background:#e8f5e9;color:#2e7d57}.badge-red{background:#ffebee;color:#c62828}
+.hidden{display:none!important}
+.fade-in{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.sync-status{position:absolute;top:8px;right:12px;font-size:11px;opacity:0.7}
+.idiom-card{background:#f0f7ff;border-radius:var(--radius-sm);padding:14px;margin-bottom:8px;border-left:4px solid #4caf7d}
+.idiom-card .word{font-size:20px;font-weight:700;color:#2e7d57}
+.idiom-card .meaning{font-size:14px;color:#555;margin-top:4px;line-height:1.6}
+.write-area{width:100%;min-height:120px;border:2px dashed var(--primary-light);border-radius:var(--radius-sm);padding:12px;font-size:16px;line-height:1.8;resize:vertical;font-family:inherit}
+.write-area:focus{outline:none;border-color:var(--primary)}
+.streak-display{font-size:14px;color:var(--accent);font-weight:600;margin-top:4px}
+.pager{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.pager button{min-width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:14px}
+.pager button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;box-shadow:0 -2px 12px rgba(0,0,0,0.08);z-index:100;padding:6px 0;padding-bottom:calc(6px + env(safe-area-inset-bottom));justify-content:space-around}
+.mobile-bottom-nav .mbn-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;cursor:pointer;color:#999;font-size:11px;transition:color .2s}
+.mobile-bottom-nav .mbn-item .icon{font-size:22px}
+.mobile-bottom-nav .mbn-item.active{color:var(--primary)}
+.install-fab{position:fixed;bottom:80px;right:16px;width:48px;height:48px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(255,152,0,0.4);z-index:99;display:none}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="sidebar">
+<div class="logo">奥特曼学习站<span>祝一一 · 二年级</span></div>
+<div class="nav-item active" data-section="home"><span class="icon">🏠</span><span>首页</span></div>
+<div class="nav-item" data-section="chinese"><span class="icon">📖</span><span>语文</span></div>
+<div class="nav-item" data-section="math"><span class="icon">🔢</span><span>数学</span></div>
+<div class="nav-item" data-section="english"><span class="icon">🔤</span><span>英语</span></div>
+<div class="nav-item" data-section="sport"><span class="icon">🏃</span><span>运动</span></div>
+<div class="nav-item" data-section="weiqi"><span class="icon">⚫</span><span>围棋</span></div>
+<div class="nav-item" data-section="ultraman"><span class="icon">🦸</span><span>奥特曼</span></div>
+<div class="bottom-info"><div>今日积分</div><div class="pts" id="todayPts">0</div><div>累计 <span id="totalPts">0</span> 分</div><div style="margin-top:6px;font-size:11px;opacity:0.7" id="syncInfo">🔗未同步</div></div>
+</div>
+<div class="content" id="content"></div>
+</div>
+<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊</button>
+<div class="mobile-bottom-nav" id="mobileBottomNav">
+  <div class="mbn-item active" data-section="home"><span class="icon">🏠</span><span>首页</span></div>
+  <div class="mbn-item" data-section="chinese"><span class="icon">📖</span><span>语文</span></div>
+  <div class="mbn-item" data-section="math"><span class="icon">🔢</span><span>数学</span></div>
+  <div class="mbn-item" data-section="english"><span class="icon">🔤</span><span>英语</span></div>
+  <div class="mbn-item" data-section="wrong"><span class="icon">📕</span><span>错题本</span></div>
+  <div class="mbn-item" data-section="ultraman"><span class="icon">🦸</span><span>奥特曼</span></div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="data/poems.js"></script>
+<script src="data/content.js"></script>
+<script src="data/reading.js"></script>
+<script src="data/english.js"></script>
+<script src="data/math.js"></script>
+<script src="data/weiqi.js"></script>
+<script src="app.js"></script>
+<script>
+// PWA Service Worker 注册
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').then(()=>console.log('SW registered')).catch(e=>console.log('SW failed:',e));
+}
+// PWA 安装提示 (支持 iOS Safari + Chrome)
+let deferredPrompt=null;
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  setTimeout(()=>{
+    if(!localStorage.getItem('yy_pwa_installed')&&!isStandalone){
+      showInstallPrompt();
+    }
+  },5000);
+});
+
+// iOS Safari 检测：如果没有 beforeinstallprompt 事件，显示 iOS 指引
+if(isIOS&&!isStandalone){
+  setTimeout(()=>{
+    if(!localStorage.getItem('yy_pwa_installed')&&!localStorage.getItem('yy_pwa_dismissed_ios')){
+      showIOSPrompt();
+    }
+  },8000);
+}
+
+function showInstallPrompt(){
+  let banner=document.createElement('div');
+  banner.id='pwaInstallBanner';
+  banner.style.cssText='position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#4caf7d,#2e7d57);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 -4px 16px rgba(0,0,0,0.15)';
+  banner.innerHTML='<span style="font-size:32px">🦸</span><div style="flex:1"><div style="font-weight:700;font-size:16px">添加到主屏幕</div><div style="font-size:13px;opacity:0.9">像App一样使用，离线也能学习！</div></div><button onclick="installPWA()" style="background:#ffd54f;color:#333;border:none;border-radius:20px;padding:8px 18px;font-size:15px;font-weight:600;cursor:pointer">安装</button><button onclick="dismissPWA()" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:8px 14px;font-size:14px;cursor:pointer">稍后</button>';
+  document.body.appendChild(banner);
+}
+
+function showIOSPrompt(){
+  let banner=document.createElement('div');
+  banner.id='pwaInstallBanner';
+  banner.style.cssText='position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#4caf7d,#2e7d57);color:#fff;padding:14px 20px;z-index:9999;box-shadow:0 -4px 16px rgba(0,0,0,0.15)';
+  banner.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:28px">🦸</span><div style="flex:1"><div style="font-weight:700;font-size:16px">添加到主屏幕</div><div style="font-size:13px;opacity:0.9">像App一样使用，离线也能学习！</div></div><button onclick="dismissPWAIOS()" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:6px 14px;font-size:14px;cursor:pointer">关闭</button></div><div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:10px;font-size:13px;line-height:1.8"><b>操作步骤：</b><br>1. 点击底部 <b>分享按钮</b>（方框↑）<br>2. 选择「<b>添加到主屏幕</b>」<br>3. 点击「<b>添加</b>」即可</div>';
+  document.body.appendChild(banner);
+}
+
+function installPWA(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(r=>{
+      if(r.outcome==='accepted'){localStorage.setItem('yy_pwa_installed','1');showToast('安装成功！从主屏幕打开即可 🎉')}
+      deferredPrompt=null;
+    });
+  }
+  dismissPWA();
+}
+function dismissPWA(){
+  let b=document.getElementById('pwaInstallBanner');
+  if(b)b.remove();
+  localStorage.setItem('yy_pwa_dismissed',Date.now());
+}
+function dismissPWAIOS(){
+  let b=document.getElementById('pwaInstallBanner');
+  if(b)b.remove();
+  localStorage.setItem('yy_pwa_dismissed_ios',Date.now());
+}
+window.addEventListener('appinstalled',()=>{localStorage.setItem('yy_pwa_installed','1');dismissPWA()});
+</script>
+</body>
+</html>
